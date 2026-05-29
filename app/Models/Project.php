@@ -44,7 +44,7 @@ class Project extends Model
     {
         return $user && (
             $user->isAdmin() ||
-            $this->members->contains($user->id)
+            ($this->members->contains($user->id) && $user->isDocente())
         );
     }
 

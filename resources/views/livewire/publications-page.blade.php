@@ -5,10 +5,22 @@
         Pubblicazioni
     </h1>
 
-    <!-- DESCRIZIONE -->
-    <p class="text-gray-600 dark:text-gray-300 mb-8">
-        Consulta tutte le pubblicazioni scientifiche del nostro gruppo di ricerca.
-    </p>
+    <div class="flex justify-between mb-6">
+    
+        <!-- DESCRIZIONE -->
+        <p class="text-gray-600 dark:text-gray-300 pt-3">
+            Consulta tutte le pubblicazioni scientifiche del nostro gruppo di ricerca.
+        </p>
+
+        @auth
+            @if (auth()->user()->isAdmin() || auth()->user()->isDocente())
+                <a href="{{ route('admin.publications') }}"
+                    class="bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition">  
+                    Gestisci Publicazioni
+                </a>
+            @endif
+        @endauth
+    </div>
 
     <!-- FILTRI -->
     <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

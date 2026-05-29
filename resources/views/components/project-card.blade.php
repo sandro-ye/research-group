@@ -1,4 +1,4 @@
-@props(['id', 'title', 'description', 'members', 'start_date', 'end_date', 'canEdit' => false])
+@props(['id', 'title', 'description', 'members', 'start_date', 'end_date', 'canEdit' => false, 'interactive' => false])
 
     <div class="bg-white dark:bg-gray-900 shadow-md rounded-2xl p-4 sm:p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
         <!-- Titolo -->
@@ -50,6 +50,7 @@
         <!-- AZIONI -->
         @if($canEdit)
             <div class="mt-4 space-x-3">
+                @if($interactive)
 
                 <button type="button" wire:click="$dispatch('editProject', { id: {{ $id }} })"
                         class="text-blue-600 hover:underline">
@@ -61,6 +62,12 @@
                     Elimina
                 </button>
 
+                @else
+                <a href="{{ route('admin.projects') }}"
+                        class="text-blue-600 hover:underline">
+                    Modifica
+                </a>
+                @endif
             </div> 
         @endif
     </div>

@@ -28,7 +28,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="min-h-full pt-20 bg-gray-100 dark:bg-gray-800">
+    <body class="min-h-full pt-20 pb-10 bg-gray-100 dark:bg-gray-800">
         @livewire('navigation-menu')
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}

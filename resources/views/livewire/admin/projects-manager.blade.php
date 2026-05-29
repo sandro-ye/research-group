@@ -32,6 +32,7 @@
             :start_date="$project->start_date"
             :end_date="$project->end_date"
             :canEdit="$project->canBeEditedBy(auth()->user())"
+            :interactive="true"
         />
         @endforeach
     </div>

@@ -28,7 +28,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased min-h-full pt-20 bg-gray-100 dark:bg-gray-800">
+    <body class="font-sans antialiased min-h-full pt-20 pb-10 bg-gray-100 dark:bg-gray-800">
         <x-banner />
 
         <div>

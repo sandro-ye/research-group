@@ -25,7 +25,7 @@ class Publication extends Model
     {
         return $user && (
             $user->isAdmin() ||
-            $this->authors->contains($user->id)
+            ($this->authors->contains($user->id) && $user->isDocente())
         );
     }
 

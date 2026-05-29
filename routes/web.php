@@ -52,7 +52,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/members', MembersManager::class)->name('admin.members');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin_or_docente'])->group(function () {
     Route::get('/admin/publications', PublicationsManager::class)
         ->name('admin.publications');
 });
@@ -62,6 +62,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('admin.announcements');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin_or_docente'])->group(function () {
     Route::get('/admin/projects', ProjectsManager::class)->name('admin.projects');
 });

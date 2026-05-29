@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isDocente() 
+    {
+        return $this->role === 'docente';
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);

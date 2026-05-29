@@ -32,6 +32,7 @@
             :doi="$pub->doi"
             :authors="$pub->authors->pluck('name')->toArray()"
             :canEdit="$pub->canBeEditedBy(auth()->user())"
+            :interactive="true"
         />
 
         @endforeach

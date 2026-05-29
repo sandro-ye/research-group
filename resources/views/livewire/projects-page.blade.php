@@ -12,9 +12,20 @@
 
     <!-- PROGETTI ATTIVI -->
     <div class="mb-12">
-        <h2 class="text-2xl font-semibold mb-6 text-indigo-600">
-            Progetti in corso
-        </h2>
+        <div class="flex justify-between mb-4">
+            <h2 class="text-2xl font-semibold pt-2 text-indigo-600">
+                Progetti in corso
+            </h2>
+            
+            @auth
+                @if (auth()->user()->isAdmin() || auth()->user()->isDocente())
+                    <a href="{{ route('admin.projects') }}"
+                        class="bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition">  
+                        Gestisci Progetti
+                    </a>
+                @endif
+            @endauth
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             @forelse($this->activeProjects as $project)
