@@ -89,7 +89,7 @@
                     Vuoi collaborare con il nostro gruppo di ricerca?
                 </p>
 
-                <a href="#" class="bg-white dark:bg-gray-200 text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition active:scale-95 shadow-sm hover:shadow-md">
+                <a href="#contacts" class="bg-white dark:bg-gray-200 text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition active:scale-95 shadow-sm hover:shadow-md">
                     Vai ai contatti
                 </a>
             </div>

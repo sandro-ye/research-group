@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,10 +28,12 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="min-h-full pt-20 pb-10 bg-gray-100 dark:bg-gray-800">
+    <body class="min-h-full pt-20 bg-gray-100 dark:bg-gray-800 flex-grow">
         @livewire('navigation-menu')
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
+
+            <x-footer />
         </div>
 
         @livewireScripts

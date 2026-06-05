@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased min-h-full pt-20 pb-10 bg-gray-100 dark:bg-gray-800">
+    <body class="font-sans antialiased min-h-full pt-20 bg-gray-100 dark:bg-gray-800">
         <x-banner />
 
         <div>
@@ -44,9 +44,12 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="flex grow">
                 {{ $slot }}
             </main>
+
+            <!-- footer -->
+            <x-footer />
         </div>
 
         @stack('modals')
