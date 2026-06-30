@@ -22,6 +22,12 @@ class MembersManager extends Component
     public $confirmingDelete = false;
     public $deleteId = null;
 
+    protected $messages = [
+        'email.required' => 'L\'indirizzo email è obbligatorio.',
+        'email.email' => 'Inserisci un indirizzo email valido.',
+        'email.unique' => 'Questa email è già registrata.',
+    ];
+
     public function render()
     {
         $this->members = User::orderBy('name')
@@ -68,7 +74,7 @@ class MembersManager extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->memberId,
+            'email' => 'required|string|max:255|email:rfc,filter|unique:users,email,' . $this->memberId,
             'password' => $this->memberId ? 'nullable|min:6' : 'required|min:6',
             'photo' => 'nullable|image|max:2048',
         ]);
@@ -115,14 +121,14 @@ class MembersManager extends Component
         $this->isOpen = true;
     }
 
-    public function delete($id)
+    public function delete()
     {
-        if ($id == auth()->id()) {
+        if ($this->deleteId == auth()->id()) {
             session()->flash('error', 'Non puoi eliminare te stesso');
             return;
         }
 
-        User::find($id)?->delete();
+        User::find($this->deleteId)?->delete();
 
         $this->confirmingDelete = false;
         $this->deleteId = null;

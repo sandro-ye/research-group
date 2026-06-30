@@ -20,9 +20,9 @@ class Project extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function publication()
+    public function publications()
     {
-        return $this->belongsTo(Publication::class);
+        return $this->hasMany(Publication::class);
     }
 
     public function isCompleted()
@@ -30,6 +30,7 @@ class Project extends Model
         return !is_null($this->end_date);
     }
 
+    // da modificare a seguito cambiamento relazione con Publication
     public function assignPublication($publicationId)
     {
         if (!$this->isCompleted()) {

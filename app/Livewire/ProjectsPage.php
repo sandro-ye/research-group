@@ -53,7 +53,7 @@ class ProjectsPage extends Component
 
     public function loadProjects()
     {
-        $this->projects = Project::with(['members', 'publication'])->latest()->get();
+        $this->projects = Project::with(['members'])->latest()->get();
     }
 
     public function create()

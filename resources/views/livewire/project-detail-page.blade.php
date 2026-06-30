@@ -35,21 +35,35 @@
         </div>
     </div>
 
-    <!-- PUBBLICAZIONE COLLEGATA -->
+    <!-- PUBBLICAZIONI COLLEGATE -->
     <div>
-        <h2 class="text-2xl dark:text-gray-200 font-semibold mb-4">Pubblicazione correlata</h2>
+        <h2 class="text-2xl dark:text-gray-200 font-semibold mb-4">Pubblicazioni correlate</h2>
 
-        @if($project->isCompleted() && $project->publication)
-            <div class="space-y-6">
-                <x-publication-card 
-                    :id="$project->publication->id"
-                    :title="$project->publication->title"
-                    :body="$project->publication->abstract"
-                    :authors="$project->publication->authors->pluck('name')->join(', ')"
-                />
-            </div>
-        @else
-            <p class="text-gray-500">Nessuna pubblicazione associata.</p>
-        @endif
+        @forelse($project->publications as $publication)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <x-publication-card
+                :id="$publication->id"
+                :title="$publication->title"
+                :abstract="$publication->abstract"
+                :year="$publication->year"
+                :doi="$publication->doi"
+                :authors="$publication->authors->pluck('name')->toArray()"
+                :project="$project->title"
+                :projectId="$project->id"
+                :canEdit="$publication->canBeEditedBy(auth()->user())"
+            />
+        </div>
+
+        @empty
+
+        <div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-6">
+
+            <p class="text-gray-500 dark:text-gray-400">
+                Nessuna pubblicazione è ancora stata associata a questo progetto.
+            </p>
+
+        </div>
+
+        @endforelse
     </div>
 </div>

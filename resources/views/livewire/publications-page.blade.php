@@ -58,6 +58,8 @@
                 :year="$pub->year"
                 :doi="$pub->doi"
                 :authors="$pub->authors->pluck('name')->toArray()"
+                :project="$pub->project?->title"
+                :projectId="$pub->project?->id"
                 :canEdit="$pub->canBeEditedBy(auth()->user())"
             />
         @empty

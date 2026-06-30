@@ -11,7 +11,7 @@ class ProjectDetailPage extends Component
 
     public function mount(Project $project)
     {
-        $this->project = Project::with('members')->findOrFail($project->id);
+        $this->project = Project::with(['members', 'publications.authors'])->findOrFail($project->id);
     }
 
     public function getIsActiveProperty()

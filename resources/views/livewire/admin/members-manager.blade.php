@@ -125,10 +125,18 @@
         <input type="email" wire:model="email" placeholder="Email"
                 class="w-full mb-2 border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500">
 
+        @error('email')
+        <p class="mt-1 text-sm text-red-600">
+            {{ $message }}
+        </p>
+        @enderror
+
         <!-- PASSWORD -->
+        @if(!$memberId)
         <input type="password" wire:model="password"
                 placeholder="Password"
                 class="w-full mb-2 border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500 ">
+        @endif
 
         <!-- RUOLO -->
         <select wire:model="role"

@@ -14,6 +14,8 @@ class Publication extends Model
         'body',
         'year',
         'doi',
+        'pdf',
+        'project_id',
     ];
 
     public function authors()
@@ -31,6 +33,6 @@ class Publication extends Model
 
     public function project()
     {
-        return $this->hasOne(Project::class);
+        return $this->belongsTo(Project::class);
     }
 }

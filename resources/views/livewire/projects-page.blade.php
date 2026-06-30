@@ -66,7 +66,7 @@
             @endforelse
         </div>
     </div>
-    
+  
     <x-modal wire:model="isOpen" maxWidth="lg">
 
         <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
@@ -117,26 +117,6 @@
                 @endforeach
             </div>
         </div>
-
-        <!-- PUBBLICAZIONE -->
-        @if($end_date)
-        <div class="mb-4">
-            <p class="font-semibold mb-1 text-gray-700 dark:text-gray-200">
-                Pubblicazione
-            </p>
-
-            <select wire:model="selectedPublication"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <option value="">-- Nessuna --</option>
-
-                @foreach($publications as $pub)
-                    <option value="{{ $pub->id }}">
-                        {{ $pub->title }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        @endif
 
         <!-- ACTIONS -->
         <div class="flex justify-end gap-2 mt-4">

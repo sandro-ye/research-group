@@ -16,13 +16,13 @@
             </h1>
 
             <p class="text-indigo-600 mt-1">
-                {{ $user->academic_role }}
+                {{ $user->academic_role ?? 'Ruolo accademico non specificato'}}
             </p>
-
+        <!--
             <p class="text-gray-500 mt-2">
                 {{ $user->field ?? 'Ambito non specificato' }}
             </p>
-
+        -->
             <p class="mt-4 text-gray-600 dark:text-gray-300">
                 {{ $user->bio }}
             </p>

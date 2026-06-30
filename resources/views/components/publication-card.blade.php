@@ -1,4 +1,4 @@
-@props(['id', 'title', 'body', 'authors', 'canEdit' => false, 'interactive' => false])
+@props(['id', 'title', 'body', 'authors', 'canEdit' => false, 'project' => null, 'projectId' => null, 'interactive' => false])
 <div>
     <div class="bg-white dark:bg-gray-900 shadow-md rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">    
 
@@ -28,6 +28,22 @@
         Anno di pubblicazione: {{ $year }}
     </p>
 
+    @if($project)
+    <div class="mt-3">
+        <span class="text-sm text-gray-500 dark:text-gray-400">
+            Progetto associato:
+        </span>
+
+        <a href="{{ route('projects.show', $projectId) }}" class="inline-flex items-center mt-1 px-3 py-1 rounded-full
+                    bg-indigo-100 dark:bg-indigo-900
+                    text-indigo-700 dark:text-indigo-300 text-sm
+                    hover:bg-indigo-200 dark:hover:bg-indigo-800
+                    transition">
+            
+            🔬 {{ $project }}
+        </a>
+    </div>
+    @endif
 
     @if($doi)
     <a href="https://doi.org/{{ $doi }}" target="_blank" class="text-indigo-600 hover:underline">

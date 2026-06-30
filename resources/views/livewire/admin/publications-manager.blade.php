@@ -31,6 +31,8 @@
             :year="$pub->year"
             :doi="$pub->doi"
             :authors="$pub->authors->pluck('name')->toArray()"
+            :project="$pub->project?->title"
+            :projectId="$pub->project?->id"
             :canEdit="$pub->canBeEditedBy(auth()->user())"
             :interactive="true"
         />
@@ -57,6 +59,30 @@
             placeholder="DOI"
             class="w-full mb-3 border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500">
 
+        <!-- ANNO -->
+        <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Anno di pubblicazione
+            </label>
+
+            <input
+                type="number"
+                wire:model="year"
+                min="1900"
+                max="{{ date('Y') }}"
+                step="1"
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-700
+                    dark:bg-gray-800 dark:text-gray-200
+                    focus:ring-2 focus:ring-indigo-500"
+                placeholder="{{ date('Y') }}">
+
+            @error('year')
+                <p class="mt-1 text-sm text-red-500">
+                    {{ $message }}
+                </p>
+            @enderror
+        </div>
+
         <!-- AUTORI -->
         <div class="mb-4">
             <p class="font-semibold mb-2 text-gray-700 dark:text-gray-200">
@@ -71,11 +97,55 @@
                                class="rounded text-indigo-600 focus:ring-indigo-500"
                                value="{{ $author->id }}">
                             
-                        {{ $author->name }}
+                        <span>{{ $author->name }}</span>
+                        @if($author->role === 'docente')
+                            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs">
+                                Docente
+                            </span>
+                        @endif
                     </label>
                 @endforeach
             </div>
+            @error('selectedAuthors')
+            <p class="mt-2 text-sm text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
         </div>
+
+        <!-- PROGETTO -->
+        <div class="space-y-2">
+
+            <label class="font-semibold text-gray-700 dark:text-gray-300">
+                Progetto associato
+            </label>
+
+            <select
+                wire:model="selectedProject"
+                class="w-full rounded-lg border border-gray-300
+                    dark:border-gray-700
+                    dark:bg-gray-800
+                    dark:text-gray-200
+                    px-3 py-2">
+
+            <option value="">
+                Nessun progetto
+            </option>
+
+            @foreach($projects as $project)
+                <option value="{{ $project->id }}">
+                    {{ $project->title }}
+                </option>
+            @endforeach
+
+            </select>
+
+            <p class="text-xs text-gray-500 dark:text-gray-400 pb-2">
+                È possibile associare la pubblicazione ad uno dei progetti ancora in corso.
+            </p>
+
+        </div>
+
 
         <!-- PDF -->
         <input type="file" wire:model="pdf" class="mb-4">

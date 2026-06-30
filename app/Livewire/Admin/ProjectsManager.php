@@ -12,21 +12,16 @@ class ProjectsManager extends Component
     protected $listeners = [
         'editProject' => 'edit',
         'deleteProject' => 'confirmDelete',
-    ]
-    ;
+    ];
     public $projects;
     public $users;
     public $publications;
-
     public $projectId;
     public $title;
     public $description;
     public $start_date;
     public $end_date;
-
     public $selectedMembers = [];
-    public $selectedPublication = null;
-
     public $isOpen = false;
     public $confirmingDelete = false;
     public $deleteId = null;
@@ -45,6 +40,11 @@ class ProjectsManager extends Component
         $this->publications = Publication::all();
     }
 
+    public function removeEndDate()
+    {
+        $this->end_date = null;
+    }
+
     public function confirmDelete($id)
     {
         $this->deleteId = $id;
@@ -53,7 +53,7 @@ class ProjectsManager extends Component
 
     public function loadProjects()
     {
-        $this->projects = Project::with(['members', 'publication'])->latest()->get();
+        $this->projects = Project::with(['members'])->latest()->get();
     }
 
     public function create()
@@ -65,7 +65,7 @@ class ProjectsManager extends Component
 
     public function edit($id)
     {
-        $project = Project::with(['members', 'publication'])->findOrFail($id);
+        $project = Project::with(['members'])->findOrFail($id);
 
         abort_unless($project->canBeEditedBy(auth()->user()), 403);
 
@@ -76,14 +76,37 @@ class ProjectsManager extends Component
         $this->end_date = $project->end_date;
 
         $this->selectedMembers = $project->members->pluck('id')->toArray();
-        $this->selectedPublication = $project->publication_id;
 
         $this->isOpen = true;
     }
 
     public function save()
     {
-        $this->validate();
+        $this->validate(
+            [
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'start_date' => 'required|date',
+                'end_date' => 'nullable|date|after_or_equal:start_date',
+            ],
+            [
+                'end_date.after_or_equal' =>
+                    'La data di fine deve essere uguale o successiva alla data di inizio.',
+            ]
+        );
+
+        // 👥 membri
+        $hasTeacher = User::whereIn('id', $this->selectedMembers)
+            ->where('role', 'docente')
+            ->exists();
+
+        if (!$hasTeacher) {
+            $this->addError(
+                'selectedMembers',
+                'Il progetto deve avere almeno un docente tra i membri.'
+            );
+            return;
+        }
 
         $project = Project::updateOrCreate(
             ['id' => $this->projectId],
@@ -95,33 +118,27 @@ class ProjectsManager extends Component
             ]
         );
 
-        // 👥 membri
         $project->members()->sync($this->selectedMembers);
 
-        // 📄 pubblicazione (solo se concluso)
-        if ($project->isCompleted() && $this->selectedPublication) {
-            $project->assignPublication($this->selectedPublication);
-        } else {
-            $project->publication_id = null;
-            $project->save();
-        }
+        $project->save();
 
         $this->closeModal();
         $this->loadProjects();
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $project = Project::findOrFail($id);
+        $project = Project::findOrFail($this->deleteId);
 
         abort_unless($project->canBeEditedBy(auth()->user()), 403);
+
+        $project->delete();
 
         $this->confirmingDelete = false;
         $this->deleteId = null;
 
-        $project->delete();
-
         $this->loadProjects();
+
         session()->flash('success', 'Progetto eliminato');
     }
 
@@ -145,7 +162,6 @@ class ProjectsManager extends Component
         $this->start_date = null;
         $this->end_date = null;
         $this->selectedMembers = [];
-        $this->selectedPublication = null;
     }
     public function render()
     {

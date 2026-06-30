@@ -11,7 +11,7 @@
     
     <!-- TOOLBAR -->
     <div class="flex justify-between mb-6">
-        <input wire:model.live="search" placeholder="Cerca..."
+        <input wire:model.live="search" placeholder="Cerca per titolo..."
                class="border px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition shadow-sm hover:shadow-md dark:bg-gray-300">
 
         <button type="button" wire:click="openModal"
@@ -67,7 +67,21 @@
         <input type="date"
                wire:model="end_date"
                class="w-full mb-4 border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500 text-black font-light">
-
+            @error('end_date')
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
+            @enderror
+        
+            @if($end_date)
+                <button
+                    type="button"
+                    wire:click="removeEndDate"
+                    class="bg-red-600 text-white hover:bg-red-700 py-1 px-2 rounded-lg text-sm font-medium">
+                        Rimuovi data di fine
+                </button>
+            @endif
+                
         <!-- MEMBRI -->
         <div class="mb-4">
             <p class="font-semibold mb-2 text-gray-700 dark:text-gray-200">
@@ -82,31 +96,22 @@
                                wire:model="selectedMembers"
                                class="rounded text-indigo-600 focus:ring-indigo-500">
 
-                        {{ $user->name }}
+                        <span>{{ $user->name }}</span>
+
+                        @if($user->role === 'docente')
+                            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs">
+                                Docente
+                            </span>
+                        @endif
                     </label>
                 @endforeach
             </div>
-        </div>
-
-        <!-- PUBBLICAZIONE -->
-        @if($end_date)
-        <div class="mb-4">
-            <p class="font-semibold mb-1 text-gray-700 dark:text-gray-200">
-                Pubblicazione
+            @error('selectedMembers')
+            <p class="mt-2 text-sm text-red-600">
+                {{ $message }}
             </p>
-
-            <select wire:model="selectedPublication"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                <option value="">-- Nessuna --</option>
-
-                @foreach($publications as $pub)
-                    <option value="{{ $pub->id }}">
-                        {{ $pub->title }}
-                    </option>
-                @endforeach
-            </select>
+            @enderror
         </div>
-        @endif
 
         <!-- ACTIONS -->
         <div class="flex justify-end gap-2 mt-4">

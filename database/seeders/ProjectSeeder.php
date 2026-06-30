@@ -43,7 +43,7 @@ class ProjectSeeder extends Seeder
             [
                 'title' => 'Data Science for Social Good',
                 'description' => 'Analisi dati per impatto sociale.',
-                'start_date' => Carbon::now()->subYear(),
+                'start_date' => Carbon::now()->subMonths(8),
                 'end_date' => Carbon::now()->subMonths(6),
             ],
         ];

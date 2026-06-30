@@ -51,7 +51,7 @@ class PublicationSeeder extends Seeder
             // 🔥 Associa 1-3 autori casuali
             $randomUsers = $users->random(rand(1, min(3, $users->count())));
 
-            $publication->user()->attach($randomUsers->pluck('id')->toArray());
+            $publication->authors()->attach($randomUsers->pluck('id')->toArray());
         }
     }
 }
